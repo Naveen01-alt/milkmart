@@ -1,0 +1,123 @@
+/* === Header === */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 15px 20px;
+  color: white;
+  position: relative;
+  z-index: 1000;
+}
+
+/* === Logo === */
+.logo img {
+  height: 50px;
+  width: auto;
+}
+
+/* === Menu button === */
+.menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* === Nav buttons (Desktop) === */
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-button {
+  background: linear-gradient(45deg, #ff7e5f, #feb47b);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: 0.3s ease;
+}
+
+/* === Mobile Styles === */
+@media (max-width: 768px) {
+  .menu-button {
+    display: block; /* show hamburger on mobile */
+  }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    bottom: 100;
+    right: -100%; /* hidden by default */
+    height: 50vh;
+    width: 250px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    padding-top: 10px;
+    gap: 30px;
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+    
+  }
+
+  .nav.open {
+    right: 0; /* slide in */
+  }
+
+  .nav-button {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #444;
+    padding-top: 10px;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  
+  
+  .logo {
+    flex: 1;
+  }
+  
+  
+  .search-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1; 
+  }
+  
+  
+  .menu-button {
+    flex-shrink: 0;
+  }
+  
+
+  
+  
+}
+
+/* === Overlay === */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}

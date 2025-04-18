@@ -1,0 +1,22 @@
+button {
+  background: #008CBA;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #005f75;
+}
+body{
+  background-color: lightblue;
+}
+/* index.css */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* ✅ Prevent horizontal scroll */
+  font-family: Arial, sans-serif;
+}
