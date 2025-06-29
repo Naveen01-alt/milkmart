@@ -13,7 +13,7 @@ const Top = () => {
 
   return (
     <>
-      {/* Overlay when menu is open */}
+      
       {menuOpen && (
         <div className="menu-overlay" onClick={() => setMenuOpen(false)}></div>
       )}
@@ -33,6 +33,10 @@ const Top = () => {
         <nav className={`nav ${menuOpen ? "open" : ""}`}>
           <button className="nav-button" onClick={() => handleNav("/")}>
             Home
+          </button>
+          
+          <button className="nav-button" onClick={() => handleNav("/products")}>
+            Products
           </button>
           <button className="nav-button" onClick={() => handleNav("/cart")}>
             Cart

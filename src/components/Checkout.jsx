@@ -30,35 +30,57 @@ const Checkout = () => {
     setCart(updatedCart);
   };
 
-  const handleOrder = () => {
-    let validationErrors = {};
-    if (!customerDetails.name.trim()) validationErrors.name = "Name is required";
-    if (!customerDetails.phone.trim()) validationErrors.phone = "Phone number is required";
-    else if (!/^\d{10}$/.test(customerDetails.phone.trim())) validationErrors.phone = "Invalid phone number";
-    if (!customerDetails.address.trim()) validationErrors.address = "Address is required";
-    if (!customerDetails.pincode.trim()) validationErrors.pincode = "Pincode is required";
-    else if (!/^\d{6}$/.test(customerDetails.pincode.trim())) validationErrors.pincode = "Invalid pincode";
-  
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+const handleOrder = () => {
+  let validationErrors = {};
+  if (!customerDetails.name.trim()) validationErrors.name = "Name is required";
+  if (!customerDetails.phone.trim()) validationErrors.phone = "Phone number is required";
+  else if (!/^\d{10}$/.test(customerDetails.phone.trim())) validationErrors.phone = "Invalid phone number";
+  if (!customerDetails.address.trim()) validationErrors.address = "Address is required";
+  if (!customerDetails.pincode.trim()) validationErrors.pincode = "Pincode is required";
+  else if (!/^\d{6}$/.test(customerDetails.pincode.trim())) validationErrors.pincode = "Invalid pincode";
 
-    setLoading(true);
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+    return;
+  }
 
-    setTimeout(() => {
-      alert("Order Placed Successfully! ✅");
+  setLoading(true);
+
+  fetch("http://localhost:5000/send-order", {
+ 
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      ...customerDetails,
+      cart,
+      totalAmount
+    })
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to send order");
+      }
+      return response.json();
+    })
+    .then(data => {
+      alert("Order Placed & Email Sent Successfully! ✅");
       localStorage.setItem("orderedItems", JSON.stringify(cart));
-    localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
-
+      localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
       navigate("/order", {
-        state: { orderedItems: cart, totalAmount },
+        state: { orderedItems: cart, totalAmount }
       });
       setCustomerDetails({ name: "", phone: "", address: "", pincode: "" });
       setLoading(false);
-      
-    }, 1500);
-  };
+    })
+    .catch(error => {
+      alert("Something went wrong! ❌");
+      console.error("Error sending order:", error);
+      setLoading(false);
+    });
+};
+
 
   return (
     <div style={styles.container}>
@@ -112,6 +134,7 @@ const Checkout = () => {
           <button style={styles.button} onClick={handleOrder} disabled={loading}>
             {loading ? "Placing Order..." : "Confirm Order"}
           </button>
+          
         </>
       )}
     </div>

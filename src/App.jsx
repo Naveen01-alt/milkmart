@@ -7,7 +7,9 @@ import Flexi from "./components/Flexi";
 import Checkout from "./components/Checkout";
 import Order from "./components/Order";
 import Footer from "./components/Footer";
+import IntroPage from "./components/IntroPage";
 
+// Wrapper to use useLocation properly
 function AppWrapper() {
   return (
     <Router>
@@ -17,10 +19,10 @@ function AppWrapper() {
 }
 
 function App() {
-  const location = useLocation(); // 👈 Get current path
+  const location = useLocation();
   const [cart, setCart] = useState([]);
 
-  // 🛒 Add product to cart
+  // Add product to cart
   const addToCart = (product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
@@ -36,7 +38,7 @@ function App() {
     });
   };
 
-  // ➕ Increase quantity
+  // Increase quantity
   const increaseQuantity = (id) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
@@ -45,7 +47,7 @@ function App() {
     );
   };
 
-  // ➖ Decrease quantity
+  // Decrease quantity
   const decreaseQuantity = (id) => {
     setCart((prevCart) =>
       prevCart
@@ -56,17 +58,22 @@ function App() {
     );
   };
 
-  const isHomePage = location.pathname === "/"; 
+  // Logic to hide Top only on the homepage
+  const isHomePage = location.pathname === "/";
+  const isProductsPage = location.pathname === "/products";
   
 
 
   return (
     <>
-      <Top />
-      {isHomePage && <Flexi />} 
+      {!isHomePage && <Top />}
+        {isHomePage && <Flexi />}
+      {isProductsPage && <Flexi />}
       
+
       <Routes>
-        <Route path="/" element={<Products addToCart={addToCart} />} />
+        <Route path="/" element={<IntroPage />} />
+        <Route path="/products" element={<Products addToCart={addToCart} />} />
         <Route
           path="/cart"
           element={
@@ -80,6 +87,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order" element={<Order />} />
       </Routes>
+
       <Footer />
     </>
   );
