@@ -46,7 +46,7 @@ const handleOrder = () => {
 
   setLoading(true);
 
-  fetch("http://localhost:5000/send-order", {
+  fetch("https://backend-rho-eight-49.vercel.app/send-order", {
  
     method: "POST",
     headers: {
